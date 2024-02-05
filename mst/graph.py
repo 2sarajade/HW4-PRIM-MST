@@ -41,4 +41,38 @@ class Graph:
         `heapify`, `heappop`, and `heappush` functions.
 
         """
-        self.mst = None
+        #initialize mst as empty
+        self.mst = np.zeros(self.adj_mat.shape)
+
+        #nodelist = [(np.inf, node, None) for node in list(range(self.adj_mat.shape[0]))]
+        nodelist = [(0, 0, None)]
+        heap = heapq.heapify(nodelist)
+        visited = []
+
+        while heap and len(visited) < self.adj_mat.shape[0]:
+            smallest = heapq.heappop(heap)
+            to = smallest[1]
+            origin = smallest[2]
+            # because heapq doesnt have an efficient way to search the heap, old nodes are still in there
+            if to in visited:
+                continue
+            # add node/edge to mst
+            visited.append(to)
+            if origin != None:
+                self.mst[origin, to] = self.adj_mat[origin, to]
+                self.mst[to, origin] = self.adj_mat[origin, to]
+            # add children to the heap
+            for i in range(self.adj_mat[1]) and i not in visited:
+                if self.adj_mat[to, i] != 0:
+                    heapq.heappush(heap, (self.adj_mat[to, i], i, to))
+
+
+
+
+
+
+
+
+
+
+

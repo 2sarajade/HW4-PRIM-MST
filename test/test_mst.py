@@ -71,4 +71,16 @@ def test_mst_student():
     TODO: Write at least one unit test for MST construction.
     
     """
-    pass
+
+    file_path = './data/small.csv'
+    g = Graph(file_path)
+    g.construct_mst()
+
+    # check if mst matrix is the right dimenstions
+    assert g.adj_mat.shape == g.mst.shape
+
+    #check if its symmetrical
+    assert np.all((g.mst - g.mst.T) == 0)
+    
+    #check if edges are right number (assumes connected graph)
+    assert np.count_nonzero(g.mst) == (g.adj_mat.shape[0] - 1) * 2
